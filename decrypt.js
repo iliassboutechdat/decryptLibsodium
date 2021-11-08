@@ -68,6 +68,7 @@ async function deleteChallenge(Data, kid){
         console.log(options.body)
         if (err) throw err
         res.pipe(process.stdout)
+        console.log("Status: " + res.statusCode);
     })
 }
 
