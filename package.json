@@ -12,6 +12,7 @@
     "libsodium": "^0.7.9",
     "libsodium-wrappers": "^0.7.9",
     "node-fetch": "^2.0.0",
+    "simple-get": "^4.0.0",
     "xhr2": "^0.2.1",
     "xmlhttprequest": "^1.8.0"
   }

@@ -14,8 +14,10 @@ Http.onreadystatechange = (e) => {
 }*/
 
 const fetch = require('node-fetch');
-const Url = 'https://79vo67ipp9.execute-api.eu-west-1.amazonaws.com/Prod/decrypt/challenges'
+const Url = 'https://79vo67ipp9.execute-api.eu-west-1.amazonaws.com/Prod/decrypt/challenges/'
 const sodium = require('libsodium-wrappers');
+const request = require('simple-get');
+
 
 
 const postParam = {
@@ -37,7 +39,7 @@ async function fetchData(){
 
   console.log(public_key);
 
-  var secret = sodium.crypto_secretbox_easy(public_challenge, public_nonce, public_key);
+  var secret = sodium.crypto_secretbox_open_easy(public_challenge, public_nonce, public_key);
   var enc_secret = sodium.to_base64(secret,sodium.base64_variants.ORIGINAL);
   deleteChallenge(enc_secret,kid);
 
@@ -45,14 +47,28 @@ async function fetchData(){
 }
 
 async function deleteChallenge(Data, kid){
-  const deleteParam = { 
+  /*const deleteParam = { 
     headers : {
         "content-type": "application/json; charset = UTF-8"
     }, 
     body : JSON.stringify({"plaintext": Data}),  
     method:"DELETE"
   }
-  var res = await fetch(`${Url}/${kid}`,deleteParam).then(data=>{return data.json()}).then(res =>(console.log(res))).catch(error=>console.log(error));
+  var res = await fetch(`${Url}/${kid}`,JSON.stringify(deleteParam).then(data=>{return data.json()}).then(res =>(console.log(res))).catch(error=>console.log(error));*/
+
+  body = {'plaintext': Data}
+
+    options = {
+        method: 'DELETE',
+        url: Url + kid,
+        body: JSON.stringify(body)
+       }
+
+    await request.delete(options, function (err, res) {
+        console.log(options.body)
+        if (err) throw err
+        res.pipe(process.stdout)
+    })
 }
 
 fetchData();
