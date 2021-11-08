@@ -45,7 +45,7 @@ async function fetchData(){
 }
 
 async function deleteChallenge(Data, kid){
-  const deleteParam = {
+  const deleteParam = { 
     headers : {
         "content-type": "application/json; charset = UTF-8"
     }, 
